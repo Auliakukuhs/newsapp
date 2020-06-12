@@ -1,0 +1,96 @@
+<div class="wrapper">
+  <!-- Sidebar  -->
+  <nav id="sidebar" [class.active]="classApplied">
+    <div class="sidebar-header">
+      <h3>Hello, World!</h3>
+    </div>
+
+    <ul class="list-unstyled components">
+      <li class="active">
+        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Sumber</a>
+        <ul class="collapse list-unstyled" id="homeSubmenu">
+          <li *ngFor="let source of mSources" (click)="searchSources(source.id)">
+            <a href="#">{{source.name}}</a>
+          </li>
+<!--          <li>-->
+<!--            <a href="#">Kompas</a>-->
+<!--          </li>-->
+<!--          <li>-->
+<!--            <a href="#">CNBC</a>-->
+<!--          </li>-->
+        </ul>
+      </li>
+      <li>
+        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Kategori</a>
+        <ul class="collapse list-unstyled" id="pageSubmenu">
+          <li>
+            <a href="#business" (click)="searchArticles('business')">Bisnis</a>
+          </li>
+          <li>
+            <a href="#business" (click)="searchArticles('health')">Kesehatan</a>
+          </li>
+          <li>
+            <a href="#business" (click)="searchArticles('technology')">Teknologi</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <ul class="list-unstyled CTAs" hidden>
+      <li>
+        <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+      </li>
+      <li>
+        <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Page Content  -->
+  <div id="content">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+
+        <button (click)="toggleClass()" type="button" id="sidebarCollapse" class="btn btn-info">
+          <i class="fas fa-align-left"></i>
+        </button>
+        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fas fa-align-justify"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="nav navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">{{category | titlecase}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="card-group">
+      <div class="col-md-4 mb-4" *ngFor="let article of rows">
+        <div class="card">
+          <img class="card-img-top" [src]="article.urlToImage" alt="Card image cap">
+          <div class="card-body">
+            <a class="card-title title" [href]="article.url" target="_blank">{{article.title}}</a>
+            <!--            <h5 class="card-title">{{article.title}}</h5>-->
+            <p class="card-text mt-2" style="font-size: 14px">{{article.description | slice:0:70}}</p>
+          </div>
+          <div class="card-footer card-body-footer">
+            <i class="fas fa-calendar"></i> {{article.publishedAt | date:"mediumDate":"":"en"}}
+            <i class="fas fa-user ml-2"></i> <span *ngIf="article.author == null || article.author == ''"> Anonymous</span> {{article.author}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5 center-pills text-center">
+      <div class="col-12">
+        <pagination style="display:inline-block;margin:0 auto;" *ngIf="config.paging" [(ngModel)]="page"
+                    [totalItems]="length" [itemsPerPage]="itemsPerPage" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false"
+                    (pageChanged)="onChangeTable(config, $event)" (numPages)="numPages = $event">
+        </pagination>
+      </div>
+    </div>
+  </div>
